@@ -6,6 +6,7 @@ import (
 	"log"
 
 	"github.com/anujsharma13/model"
+	"github.com/anujsharma13/redis"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -81,4 +82,18 @@ func GetAllWorkers() []primitive.M {
 	}
 	defer cursor.Close(context.Background())
 	return workers
+}
+
+func GetOneWorker(workerId string) (model.Workers, error) {
+	worker, err := redis.Get(workerId)
+	if err != nil {
+		return model.Workers{}, err
+	}
+	filter := bson.D{{"_id", 10}}
+	var worker2 model.Workers
+	err1 := collection.FindOne(context.Background(), filter).Decode(&worker2)
+	if err1 != nil {
+		return model.Workers{}, err
+	}
+	return worker, nil
 }
