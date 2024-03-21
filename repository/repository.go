@@ -89,7 +89,7 @@ func GetOneWorker(workerId string) (model.Workers, error) {
 	if err != nil {
 		return model.Workers{}, err
 	}
-	filter := bson.D{{"_id", 10}}
+	filter := bson.D{{"_id", workerId}}
 	var worker2 model.Workers
 	err1 := collection.FindOne(context.Background(), filter).Decode(&worker2)
 	if err1 != nil {

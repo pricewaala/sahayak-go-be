@@ -2,6 +2,7 @@ package controller
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/anujsharma13/model"
@@ -20,6 +21,7 @@ func CreateWorker(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Allow-Control-Allow-Methods", "POST")
 	var worker model.Workers
 	_ = json.NewDecoder(r.Body).Decode(&worker)
+	fmt.Println(worker)
 	repository.InsertOneWorker(worker)
 	json.NewEncoder(w).Encode(worker)
 }
